@@ -31,7 +31,8 @@ public class BallController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (IsServer && !gameStarted) 
+        if (IsServer && !gameStarted) // Only the server starts the game and launches the ball
+
         {
             gameStarted = true;
             StartCoroutine(LaunchBallAfterDelay(1f));
@@ -44,7 +45,8 @@ public class BallController : NetworkBehaviour
 
         if (collision.gameObject.CompareTag("Paddle"))
         {
-            rb.linearVelocity *= speedIncreaseFactor; // Keep velocity instead of linearVelocity
+            rb.linearVelocity *= speedIncreaseFactor; // Increase ball speed on paddle hit
+
 
             if (paddleHitAudio != null && paddleHitAudio.clip != null)
             {
@@ -60,7 +62,7 @@ public class BallController : NetworkBehaviour
         }
         else if (collision.gameObject.CompareTag("GoalWall"))
         {
-            ScoreCount scoreManager = FindFirstObjectByType<ScoreCount>();
+            ScoreCount scoreManager = FindFirstObjectByType<ScoreCount>(); // Find score manager and update scores
 
             if (collision.gameObject.name == "LeftWall")
             {
@@ -73,7 +75,7 @@ public class BallController : NetworkBehaviour
 
             if (!gameOver) 
             {
-                StartCoroutine(ResetBall());
+                StartCoroutine(ResetBall()); 
             }
         }
     }
